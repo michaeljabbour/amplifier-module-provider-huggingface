@@ -111,12 +111,8 @@ async def mount(coordinator: ModuleCoordinator, config: dict[str, Any] | None = 
     """
     config = config or {}
 
-    # Get API key from config or environment
-    api_key = (
-        config.get("api_key")
-        or os.environ.get("HF_TOKEN")
-        or os.environ.get("HUGGINGFACE_API_KEY")
-    )
+    # Get API key from config (resolved from ${HF_TOKEN} by runtime) or environment
+    api_key = config.get("api_key") or os.environ.get("HF_TOKEN")
 
     if not api_key:
         logger.warning("No API key found for HuggingFace provider")
